@@ -2,7 +2,7 @@ class Product{
   int? id;
   String? name;
   String? description;
-  double? unitPrice;
+  int? unitPrice;
 
   Product({required this.name,required this.description,required this.unitPrice});
   Product.withId({required this.id,required this.name,required this.description,required this.unitPrice});
@@ -15,12 +15,13 @@ class Product{
     if(id!=null){
       map["id"]=id;
     }
+    return map;
   }
 
   Product.fromObject(dynamic o){
-    this.id = int.tryParse(o["id"]);
+    this.id = (o["id"]);
     this.name = o["name"]!;
-    this.unitPrice = double.tryParse(o["unitPrice"]!);
     this.description = o["description"]!;
+    this.unitPrice = (o["unitPrice"]!);
   }
 }
