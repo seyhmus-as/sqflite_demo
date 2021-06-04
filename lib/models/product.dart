@@ -19,9 +19,9 @@ class Product{
   }
 
   Product.fromObject(dynamic o){
-    this.id = (o["id"]);
-    this.name = o["name"]!;
-    this.description = o["description"]!;
-    this.unitPrice = (o["unitPrice"]!);
+    this.id = o["id"];
+    this.name = o["name"];
+    this.description = o["description"];
+    this.unitPrice = o["unitPrice"];
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite_demo/data/dbHelper.dart';
 import 'package:sqflite_demo/models/product.dart';
 import 'package:sqflite_demo/screens/product_add.dart';
+import 'package:sqflite_demo/screens/product_detail.dart';
 
 class ProductList extends StatefulWidget {
   @override
@@ -52,14 +53,14 @@ class _ProductListState extends State {
                 ),
                 title: Text(this.products![position].name!),
                 subtitle: Text(this.products![position].description!),
-                onTap: () {},
-              ));
+                onTap: () {goToDetail(this.products![position]);},
+              )
+          );
         });
   }
 
   void goToProductAdd() async {
-    bool result = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ProductAdd()));
+    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ProductAdd()));
     if (result != null) {
       if (result) {
         getProducts();
@@ -68,12 +69,21 @@ class _ProductListState extends State {
   }
 
   void getProducts() async {
-    print("Get products");
-  var productFuture = dbHelper.getProducts();
-  productFuture.then((value) {
-    print("Product Count:" + value.length.toString());
-    this.products = value;
-    this.productCount = value.length;
-  });
+    var productFuture = dbHelper.getProducts();
+    productFuture.then((value) {
+      setState(() {
+        this.products = value;
+        this.productCount = value.length;
+        print("Number product in database:" + value.length.toString());
+      });
+    });
+  }
+  void goToDetail(Product product) async{
+    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetail(product)));
+    if(result!=null){
+      if(result){
+        getProducts();
+      }
+    }
   }
 }
